@@ -1,0 +1,8 @@
+# Archivos generados por la compilacion
+*.o              # Ignorar todos los archivos objeto
+*.exe            # Ignorar ejecutables de Windows
+sistema_reservas # Ignorar tu ejecutable especifico (para Linux/macOS)
+obj/             # Ignorar la carpeta de objetos
+
+# Archivo de datos del programa
+turnos.dat       # Ignorar el archivo de datos si no quieres que se versionen los datos del usuario en el repo
