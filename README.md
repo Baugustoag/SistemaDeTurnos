@@ -28,7 +28,7 @@ Para compilar y ejecutar:
 
 🔹 En Linux
 
-Asegurate de tener GCC instalado:
+Tener GCC instalado:
 sudo apt update
 sudo apt install build-essential
 
