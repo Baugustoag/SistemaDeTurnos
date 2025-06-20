@@ -27,6 +27,7 @@ El código es totalmente funcional tanto en **Windows** como en **Linux** y pued
 Para compilar y ejecutar:
 
 🔹 En Linux
+
 Asegurate de tener GCC instalado:
 sudo apt update
 sudo apt install build-essential
@@ -41,6 +42,7 @@ Ejecucion:
 ./sistema_reservas
 
 🔹 En Windows
+
 Ejecuccion:
 sistema_reservas.exe
 
