@@ -24,7 +24,22 @@ El código es totalmente funcional tanto en **Windows** como en **Linux** y pued
 | Soto, Diogo           | Programador principal |
 | Pintos, Leandro       |  Programador principal |
 
+Para compilar y ejecutar:
 
+🔹 En Linux
+Asegurate de tener GCC instalado:
+sudo apt update
+sudo apt install build-essential
+Desde la terminal, moverse a la carpeta:
+cd ~/Ruta/Del/Proyecto
+Compilar:
+gcc -o sistema_reservas sistema_reservas.c
+Ejecucion:
+./sistema_reservas
+
+🔹 En Windows
+Ejecuccion:
+sistema_reservas.exe
 
 ## Uso
 
