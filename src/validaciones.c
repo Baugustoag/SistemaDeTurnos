@@ -30,24 +30,17 @@ int getValidatedIntInput(const char *prompt, int min, int max) {
     }
 }
 
-// Implementacion de la validacion de fecha
-int validarFecha(const char *fecha) {
-    int y, m, d;
-    struct tm tm;
+// int validarFecha(const char *fecha) { /* ... ELIMINADO ... */ }
+// int validarHora(const char *hora) { /* ... ELIMINADO ... */ }
 
-    if (sscanf(fecha, "%4d-%2d-%2d", &y, &m, &d) != 3) {
-        return 0;
-    }
 
-    if (y < 1900 || m < 1 || m > 12 || d < 1 || d > 31) {
-        return 0;
-    }
-
-    memset(&tm, 0, sizeof(struct tm));
-    tm.tm_year = y - 1900;
-    tm.tm_mon = m - 1;
-    tm.tm_mday = d;
-    tm.tm_isdst = -1;
+// Implementacion de la validacion de dia del mes (se mantiene)
+int validarDiaDelMes(int dia, int mes, int anio) {
+    struct tm tm = {0}; // Inicializar a cero
+    tm.tm_year = anio - 1900;
+    tm.tm_mon = mes - 1;
+    tm.tm_mday = dia;
+    tm.tm_isdst = -1; // Deja que mktime determine DST
 
     time_t rawtime = mktime(&tm);
 
@@ -57,20 +50,16 @@ int validarFecha(const char *fecha) {
 
     struct tm *validated_tm = localtime(&rawtime);
     if (validated_tm == NULL ||
-        validated_tm->tm_year + 1900 != y ||
-        validated_tm->tm_mon + 1 != m ||
-        validated_tm->tm_mday != d) {
+        validated_tm->tm_year + 1900 != anio ||
+        validated_tm->tm_mon + 1 != mes ||
+        validated_tm->tm_mday != dia) {
         return 0;
     }
 
     return 1;
 }
 
-// Implementacion de la validacion de hora
-int validarHora(const char *hora) {
-    int h, m;
-    if (sscanf(hora, "%2d:%2d", &h, &m) != 2) {
-        return 0;
-    }
-    return (h >= 0 && h <= 23 && m == 0);
+// ¡NUEVA FUNCIÓN! Implementacion de la validacion de hora entera
+int validarHoraEntera(int hora) {
+    return (hora >= 0 && hora <= 23);
 }

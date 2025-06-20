@@ -32,7 +32,7 @@ all: $(OBJ_DIR) $(TARGET)
 
 # Regla para crear la carpeta de objetos si no existe
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
+	@if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
 
 # Regla principal para enlazar el ejecutable
 $(TARGET): $(OBJS)
@@ -43,8 +43,9 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 # Regla para limpiar los archivos generados
 clean:
-	@rm -rf $(OBJ_DIR) $(TARGET) turnos.dat
-	@echo "Archivos generados y turnos.dat eliminados."
+	@if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
+	@if exist $(TARGET).exe del $(TARGET).exe
+	@if exist turnos.dat del turnos.dat
 
 # Regla para ejecutar el programa despues de compilar
 run: all
