@@ -30,10 +30,13 @@ Para compilar y ejecutar:
 Asegurate de tener GCC instalado:
 sudo apt update
 sudo apt install build-essential
+
 Desde la terminal, moverse a la carpeta:
 cd ~/Ruta/Del/Proyecto
+
 Compilar:
 gcc -o sistema_reservas sistema_reservas.c
+
 Ejecucion:
 ./sistema_reservas
 
