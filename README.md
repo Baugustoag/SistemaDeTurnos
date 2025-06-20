@@ -25,22 +25,6 @@ El código es totalmente funcional tanto en **Windows** como en **Linux** y pued
 | Pintos, Leandro       |  Programador principal |
 
 
-## ⚙️ Compilación y Ejecución
-
-### ✅ Requisitos
-
-- Tener instalado un compilador de C:
-  - En **Windows**: [TDM-GCC](https://jmeubank.github.io/tdm-gcc/) o [MinGW](http://www.mingw.org/)
-  - En **Linux**: el compilador `gcc` (ya viene instalado en la mayoría de las distribuciones)
-
-- Un editor de texto o IDE como [Code::Blocks](http://www.codeblocks.org/), [VS Code](https://code.visualstudio.com/) o simplemente Notepad++.
-
-### 💻 Instrucciones para Compilar
-
-#### 🔹 En Windows (usando terminal CMD o PowerShell):
-
-1. Abrí la terminal en la carpeta donde está el archivo `.c`
-2. Ejecutá:
 
 ## Uso
 
