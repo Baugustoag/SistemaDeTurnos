@@ -20,13 +20,10 @@ El código es totalmente funcional tanto en **Windows** como en **Linux** y pued
 
 | Nombre               | Rol                            |
 |----------------------|---------------------------------|
-| Leandro Nicolás      | Programador principal, lógica de reservas, manejo de archivos |
-| [Nombre Integrante 2]| Manejo de menú y entrada de datos |
-| [Nombre Integrante 3]| Validación, pruebas y documentación |
+| Aguirre, Augusto      | Programador principal |
+| Soto, Diogo           | Programador principal |
+| Pintos, Leandro       |  Programador principal |
 
-*Nota: Si sos el único en el grupo, podés eliminar esta sección o poner que todos los roles fueron cubiertos por vos.*
-
----
 
 ## ⚙️ Compilación y Ejecución
 
