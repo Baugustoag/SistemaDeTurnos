@@ -65,3 +65,4 @@ Al iniciar el programa, se mostrará un menú principal:
 Al elegir la opcion 1, apareceran los campos para hacer la reserva, definiendo lo siguiente: Dia, mes, hora, cancha y nombre de quien realiza la reserva.
 La opcion 2 nos muestra la lista de turnos que hay, tanto libres como ocupados, para poder tener una mejor visualizacion de la disponibilidad de horarios y cancha.
 Para cancelar el turno, seleccionamos la opcion 3, donde nos tenemos que responder con el nombre y cancha. Consideramos tambien la opcion para no cancelar, sino reagendar el turno, es decir modificar el dia y la hora.
+Tomar en cuenta que solo se pueden reservar turnos con hasta 7 días de anticipación.
