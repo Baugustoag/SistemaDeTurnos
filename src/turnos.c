@@ -1,16 +1,13 @@
 #include "turnos.h"
 #include <stdio.h>
-#include <stdlib.h> // Para malloc y free
-#include <string.h> // Para strcmp
+#include <stdlib.h> 
+#include <string.h> 
 
-// La variable global listaTurnos se inicializa aqui
 Turno *listaTurnos = NULL;
 
-// Implementacion de la funcion para cargar turnos desde archivo
 void cargarTurnosDesdeArchivo() {
     FILE *f = fopen(ARCHIVO_TURNOS, "rb");
     if (!f) {
-        //printf("Advertencia: No se pudo abrir el archivo de turnos (%s). Se creara uno nuevo si se guardan datos.\n", ARCHIVO_TURNOS);
         return;
     }
     Turno t;
@@ -31,7 +28,6 @@ void cargarTurnosDesdeArchivo() {
     fclose(f);
 }
 
-// Implementacion de la funcion para guardar turnos en archivo
 void guardarTurnosEnArchivo() {
     FILE *f = fopen(ARCHIVO_TURNOS, "wb");
     if (!f) {
@@ -52,19 +48,17 @@ void guardarTurnosEnArchivo() {
     fclose(f);
 }
 
-// Implementacion de la funcion para verificar si un turno esta disponible
 int turnoDisponible(int cancha, const char *dia, const char *hora) {
     Turno *aux = listaTurnos;
     while (aux) {
         if (aux->cancha == cancha && strcmp(aux->dia, dia) == 0 && strcmp(aux->hora, hora) == 0) {
-            return 0; // Turno ocupado
+            return 0;
         }
         aux = aux->sig;
     }
-    return 1; // Turno disponible
+    return 1;
 }
 
-// Implementacion de la funcion para liberar toda la memoria de la lista
 void liberarListaTurnos() {
     Turno *current = listaTurnos;
     Turno *next;
@@ -73,5 +67,5 @@ void liberarListaTurnos() {
         free(current);
         current = next;
     }
-    listaTurnos = NULL; // Asegurar que la lista este vacia
+    listaTurnos = NULL; 
 }
