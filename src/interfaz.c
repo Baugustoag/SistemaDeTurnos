@@ -9,12 +9,18 @@
 
 
 void mostrarMenu() {
-    printf("\n==== SISTEMA DE RESERVAS ====\n");
-    printf("1. Reservar turno\n");
-    printf("2. Listar turnos\n");
-    printf("3. Cancelar turno\n");
-    printf("4. Reagendar turno\n");
-    printf("0. Salir\n");
+   printf("\n========================================\n");
+   printf("        SISTEMA DE RESERVAS\n");
+   printf("========================================\n");
+   printf("Seleccione una opción: ");
+   printf("========================================\n");
+   printf("  1. Reservar turno\n");
+   printf("  2. Listar turnos\n");
+   printf("  3. Cancelar turno\n");
+   printf("  4. Reagendar turno\n");
+   printf("  0. Salir\n");
+   printf("========================================\n");
+  
 }
 
 
