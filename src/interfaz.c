@@ -112,6 +112,8 @@ void reservarTurno() {
 #include <time.h>
 
 
+// Implementacion de la funcion para listar turnos
+
 void listarTurnos() {
     int dia_consulta, cancha_consulta;
     char dia_str[11];
