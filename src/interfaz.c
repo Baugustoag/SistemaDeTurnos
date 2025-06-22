@@ -2,11 +2,10 @@
 #include "turnos.h"
 #include "validaciones.h"
 #include "utilidades_tiempo.h" 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>   
+#include <time.h>    
 
 
 void mostrarMenu() {
@@ -52,10 +51,8 @@ void reservarTurno() {
             printf("Error: El dia %d no es valido para el mes %02d.\n", dia_reserva, mes_actual);
         }
     }
-    
     sprintf(nuevo->dia, "%04d-%02d-%02d", anio_actual, mes_actual, dia_reserva);
 
- 
     while (1) {
         hora_reserva_entera = getValidatedIntInput("Ingrese la hora de inicio (0-23, solo horas en punto): ", 0, 23);
         if (validarHoraEntera(hora_reserva_entera)) {
@@ -64,10 +61,9 @@ void reservarTurno() {
             printf("Error: Hora invalida. Ingrese un numero entre 0 y 23.\n");
         }
     }
-  
     sprintf(nuevo->hora, "%02d:00", hora_reserva_entera);
 
-    nuevo->cancha = getValidatedIntInput("Ingrese numero de cancha (1 o 2): ", 1, MAX_CANCHAS);
+    nuevo->cancha = getValidatedIntInput("Ingrese numero de cancha (1 a 3): ", 1, MAX_CANCHAS);
 
     printf("Ingrese su nombre: ");
     fgets(nuevo->nombre, sizeof(nuevo->nombre), stdin);
@@ -77,7 +73,6 @@ void reservarTurno() {
     time_t ahora = time(NULL);
     time_t limiteFuturo = ahora + (DIAS_MAX_FUTURO * 24 * 60 * 60);
 
-    
     if (difftime(turnoTime, ahora) < 60) {
         printf("Error: No se puede reservar un turno en el pasado o con menos de 1 minuto de anticipacion.\n");
         free(nuevo);
@@ -100,7 +95,6 @@ void reservarTurno() {
     printf("Turno reservado con exito para el %s a las %s en la cancha %d.\n", nuevo->dia, nuevo->hora, nuevo->cancha);
 }
 
-
 #include "interfaz.h"
 #include "turnos.h"
 #include "validaciones.h"
@@ -122,7 +116,6 @@ void listarTurnos() {
     printf("\n--- Consultar Disponibilidad ---\n");
     printf("Consultara para el mes actual (%02d/%d).\n", mes_actual, anio_actual);
 
-   
     while (1) {
         dia_consulta = getValidatedIntInput("Ingrese el numero de dia a consultar: ", 1, 31);
         if (validarDiaDelMes(dia_consulta, mes_actual, anio_actual)) {
@@ -131,10 +124,10 @@ void listarTurnos() {
             printf("Error: El dia %d no es valido para el mes %02d.\n", dia_consulta, mes_actual);
         }
     }
-   
+  
     sprintf(dia_str, "%04d-%02d-%02d", anio_actual, mes_actual, dia_consulta);
 
-    cancha_consulta = getValidatedIntInput("Ingrese numero de cancha (1 o 2): ", 1, MAX_CANCHAS);
+    cancha_consulta = getValidatedIntInput("Ingrese numero de cancha (1 a 3): ", 1, MAX_CANCHAS);
 
     char horas[24][6];
     int cantidad;
@@ -145,10 +138,11 @@ void listarTurnos() {
     for (int i = 0; i < cantidad; i++) {
         Turno *aux = listaTurnos;
         int ocupado = 0;
-       
+        
         while (aux) {
             if (aux->cancha == cancha_consulta && strcmp(aux->dia, dia_str) == 0 && strcmp(aux->hora, horas[i]) == 0) {
                 ocupado = 1;
+           
                 found_any_turn = 1;
                 break;
             }
@@ -199,7 +193,7 @@ void cancelarTurno() {
     }
     sprintf(hora_str, "%02d:00", hora_cancelar_entera);
 
-    cancha_cancelar = getValidatedIntInput("Ingrese cancha del turno a cancelar (1 o 2): ", 1, MAX_CANCHAS);
+    cancha_cancelar = getValidatedIntInput("Ingrese cancha del turno a cancelar (1 a 3): ", 1, MAX_CANCHAS);
 
     printf("Ingrese su nombre para confirmar la cancelacion: ");
     fgets(nombre, sizeof(nombre), stdin);
@@ -212,7 +206,7 @@ void cancelarTurno() {
         printf("Error: No se puede cancelar un turno que ya ha pasado.\n");
         return;
     }
-    if (difftime(turnoTime, ahora) < 7200) { 
+    if (difftime(turnoTime, ahora) < 7200) { // 7200 segundos = 2 horas
         printf("Error: No se puede cancelar el turno con menos de 2 horas de anticipacion.\n");
         return;
     }
@@ -231,7 +225,6 @@ void cancelarTurno() {
     }
     printf("Error: No se encontro el turno con los datos proporcionados (fecha, hora, cancha y/o nombre no coinciden).\n");
 }
-
 
 void reagendarTurno() {
     int dia_antiguo_int, hora_antigua_int;
@@ -264,7 +257,7 @@ void reagendarTurno() {
     }
     sprintf(horaAntigua, "%02d:00", hora_antigua_int);
 
-    canchaAntigua = getValidatedIntInput("Cancha del turno actual (1 o 2): ", 1, MAX_CANCHAS);
+    canchaAntigua = getValidatedIntInput("Cancha del turno actual (1 a 3): ", 1, MAX_CANCHAS);
 
     printf("Su nombre: ");
     fgets(nombreAntiguo, sizeof(nombreAntiguo), stdin);
@@ -321,7 +314,7 @@ void reagendarTurno() {
     }
     sprintf(nuevaHora_str, "%02d:00", nuevaHora_int);
 
-    nuevaCancha = getValidatedIntInput("Nueva cancha (1 o 2): ", 1, MAX_CANCHAS);
+    nuevaCancha = getValidatedIntInput("Nueva cancha (1 a 3): ", 1, MAX_CANCHAS);
 
     time_t nuevoTurnoTime = convertirADatetime(nuevoDia_str, nuevaHora_str);
     time_t limiteFuturo = ahora + (DIAS_MAX_FUTURO * 24 * 60 * 60);
