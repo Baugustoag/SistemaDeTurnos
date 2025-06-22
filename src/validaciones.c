@@ -1,22 +1,20 @@
 #include "validaciones.h"
 #include <stdio.h>
-#include <string.h> // Para memset
-#include <time.h>   // Para struct tm, time_t, mktime, localtime
+#include <string.h> 
+#include <time.h>   
 
-// Implementacion de la funcion para limpiar el buffer de entrada
 void clearInputBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
-// Implementacion de la funcion para obtener entrada entera validada
 int getValidatedIntInput(const char *prompt, int min, int max) {
     int value;
     int scanned_items;
     while (1) {
         printf("%s", prompt);
         scanned_items = scanf("%d", &value);
-        clearInputBuffer(); // Siempre limpiar el buffer despues de scanf
+        clearInputBuffer(); 
 
         if (scanned_items == 1) {
             if (value >= min && value <= max) {
@@ -30,17 +28,15 @@ int getValidatedIntInput(const char *prompt, int min, int max) {
     }
 }
 
-// int validarFecha(const char *fecha) { /* ... ELIMINADO ... */ }
-// int validarHora(const char *hora) { /* ... ELIMINADO ... */ }
 
 
-// Implementacion de la validacion de dia del mes (se mantiene)
+
 int validarDiaDelMes(int dia, int mes, int anio) {
-    struct tm tm = {0}; // Inicializar a cero
+    struct tm tm = {0}; 
     tm.tm_year = anio - 1900;
     tm.tm_mon = mes - 1;
     tm.tm_mday = dia;
-    tm.tm_isdst = -1; // Deja que mktime determine DST
+    tm.tm_isdst = -1; 
 
     time_t rawtime = mktime(&tm);
 
@@ -59,7 +55,7 @@ int validarDiaDelMes(int dia, int mes, int anio) {
     return 1;
 }
 
-// ¡NUEVA FUNCIÓN! Implementacion de la validacion de hora entera
+
 int validarHoraEntera(int hora) {
     return (hora >= 0 && hora <= 23);
 }
