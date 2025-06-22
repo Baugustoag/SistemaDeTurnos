@@ -1,14 +1,14 @@
 #include "interfaz.h"
 #include "turnos.h"
 #include "validaciones.h"
-#include "utilidades_tiempo.h" // Se sigue usando para convertirADatetime y generarHorasDelDia
+#include "utilidades_tiempo.h" 
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>    // Para time, difftime, localtime, sprintf
+#include <time.h>   
 
-// Implementacion de la funcion para mostrar el menu
+
 void mostrarMenu() {
     printf("\n==== SISTEMA DE RESERVAS ====\n");
     printf("1. Reservar turno\n");
@@ -18,16 +18,16 @@ void mostrarMenu() {
     printf("0. Salir\n");
 }
 
-// Función auxiliar para obtener el año, mes y día actuales del sistema
+
 void obtenerFechaActual(int *anio, int *mes, int *dia) {
     time_t now = time(NULL);
     struct tm *local_time = localtime(&now);
     *anio = local_time->tm_year + 1900;
     *mes = local_time->tm_mon + 1;
-    *dia = local_time->tm_mday; // Este no lo usaremos directamente, pero es útil tenerlo
+    *dia = local_time->tm_mday; 
 }
 
-// Implementacion de la funcion para reservar un turno
+
 void reservarTurno() {
     Turno *nuevo = malloc(sizeof(Turno));
     if (nuevo == NULL) {
@@ -36,14 +36,14 @@ void reservarTurno() {
     }
 
     int dia_reserva, hora_reserva_entera;
-    int anio_actual, mes_actual, dia_actual; // Variables para la fecha actual
+    int anio_actual, mes_actual, dia_actual; 
 
-    obtenerFechaActual(&anio_actual, &mes_actual, &dia_actual); // Obtener la fecha del sistema
+    obtenerFechaActual(&anio_actual, &mes_actual, &dia_actual); 
 
     printf("\n--- Reservar Turno ---\n");
     printf("El turno se reservara para el mes actual (%02d/%d).\n", mes_actual, anio_actual);
 
-    // Pedir solo el numero de dia
+  
     while (1) {
         dia_reserva = getValidatedIntInput("Ingrese el numero de dia para la reserva: ", 1, 31);
         if (validarDiaDelMes(dia_reserva, mes_actual, anio_actual)) {
@@ -52,10 +52,10 @@ void reservarTurno() {
             printf("Error: El dia %d no es valido para el mes %02d.\n", dia_reserva, mes_actual);
         }
     }
-    // Construir la cadena de fecha completa (YYYY-MM-DD)
+    
     sprintf(nuevo->dia, "%04d-%02d-%02d", anio_actual, mes_actual, dia_reserva);
 
-    // Pedir solo la hora entera
+ 
     while (1) {
         hora_reserva_entera = getValidatedIntInput("Ingrese la hora de inicio (0-23, solo horas en punto): ", 0, 23);
         if (validarHoraEntera(hora_reserva_entera)) {
@@ -64,7 +64,7 @@ void reservarTurno() {
             printf("Error: Hora invalida. Ingrese un numero entre 0 y 23.\n");
         }
     }
-    // Construir la cadena de hora (HH:MM)
+  
     sprintf(nuevo->hora, "%02d:00", hora_reserva_entera);
 
     nuevo->cancha = getValidatedIntInput("Ingrese numero de cancha (1 o 2): ", 1, MAX_CANCHAS);
@@ -77,7 +77,7 @@ void reservarTurno() {
     time_t ahora = time(NULL);
     time_t limiteFuturo = ahora + (DIAS_MAX_FUTURO * 24 * 60 * 60);
 
-    // Revalidar el turnoTime contra el tiempo actual y limite futuro
+    
     if (difftime(turnoTime, ahora) < 60) {
         printf("Error: No se puede reservar un turno en el pasado o con menos de 1 minuto de anticipacion.\n");
         free(nuevo);
@@ -100,7 +100,7 @@ void reservarTurno() {
     printf("Turno reservado con exito para el %s a las %s en la cancha %d.\n", nuevo->dia, nuevo->hora, nuevo->cancha);
 }
 
-// Implementacion de la funcion para listar turnos
+
 #include "interfaz.h"
 #include "turnos.h"
 #include "validaciones.h"
@@ -111,9 +111,7 @@ void reservarTurno() {
 #include <string.h>
 #include <time.h>
 
-// ... (Las funciones mostrarMenu(), obtenerFechaActual(), reservarTurno() van aquí, sin cambios)
 
-// Implementacion de la funcion para listar turnos
 void listarTurnos() {
     int dia_consulta, cancha_consulta;
     char dia_str[11];
@@ -124,7 +122,7 @@ void listarTurnos() {
     printf("\n--- Consultar Disponibilidad ---\n");
     printf("Consultara para el mes actual (%02d/%d).\n", mes_actual, anio_actual);
 
-    // Pedir solo el numero de dia para la consulta
+   
     while (1) {
         dia_consulta = getValidatedIntInput("Ingrese el numero de dia a consultar: ", 1, 31);
         if (validarDiaDelMes(dia_consulta, mes_actual, anio_actual)) {
@@ -133,26 +131,24 @@ void listarTurnos() {
             printf("Error: El dia %d no es valido para el mes %02d.\n", dia_consulta, mes_actual);
         }
     }
-    // Construir la cadena de fecha completa (YYYY-MM-DD)
+   
     sprintf(dia_str, "%04d-%02d-%02d", anio_actual, mes_actual, dia_consulta);
 
     cancha_consulta = getValidatedIntInput("Ingrese numero de cancha (1 o 2): ", 1, MAX_CANCHAS);
 
     char horas[24][6];
     int cantidad;
-    generarHorasDelDia(horas, &cantidad); // Esta función ya genera "HH:00"
+    generarHorasDelDia(horas, &cantidad); 
 
     printf("\n--- Disponibilidad para el dia %s en cancha %d ---\n", dia_str, cancha_consulta);
     int found_any_turn = 0;
     for (int i = 0; i < cantidad; i++) {
         Turno *aux = listaTurnos;
         int ocupado = 0;
-        // char nombre_reserva[51] = "N/A"; // Esta línea ya no es necesaria
+       
         while (aux) {
             if (aux->cancha == cancha_consulta && strcmp(aux->dia, dia_str) == 0 && strcmp(aux->hora, horas[i]) == 0) {
                 ocupado = 1;
-                // strncpy(nombre_reserva, aux->nombre, sizeof(nombre_reserva) - 1); // ¡ELIMINADA!
-                // nombre_reserva[sizeof(nombre_reserva) - 1] = '\0'; // ¡ELIMINADA!
                 found_any_turn = 1;
                 break;
             }
@@ -160,7 +156,7 @@ void listarTurnos() {
         }
 
         if (ocupado) {
-            printf("%s - OCUPADO\n", horas[i]); // ¡MODIFICADA! Solo imprime OCUPADO
+            printf("%s - OCUPADO\n", horas[i]); 
         } else {
             printf("%s - LIBRE\n", horas[i]);
         }
@@ -172,7 +168,6 @@ void listarTurnos() {
     }
 }
 
-// Implementacion de la funcion para cancelar un turno
 void cancelarTurno() {
     int dia_cancelar, hora_cancelar_entera;
     char dia_str[11], hora_str[6], nombre[51];
@@ -184,7 +179,6 @@ void cancelarTurno() {
     printf("--- Cancelar Turno ---\n");
     printf("El turno a cancelar se buscara para el mes actual (%02d/%d).\n", mes_actual, anio_actual);
 
-    // Pedir solo el numero de dia para la cancelacion
     while (1) {
         dia_cancelar = getValidatedIntInput("Ingrese el numero de dia del turno a cancelar: ", 1, 31);
         if (validarDiaDelMes(dia_cancelar, mes_actual, anio_actual)) {
@@ -195,7 +189,6 @@ void cancelarTurno() {
     }
     sprintf(dia_str, "%04d-%02d-%02d", anio_actual, mes_actual, dia_cancelar);
 
-    // Pedir solo la hora entera para la cancelacion
     while (1) {
         hora_cancelar_entera = getValidatedIntInput("Ingrese la hora del turno a cancelar (0-23): ", 0, 23);
         if (validarHoraEntera(hora_cancelar_entera)) {
@@ -219,7 +212,7 @@ void cancelarTurno() {
         printf("Error: No se puede cancelar un turno que ya ha pasado.\n");
         return;
     }
-    if (difftime(turnoTime, ahora) < 7200) { // 7200 segundos = 2 horas
+    if (difftime(turnoTime, ahora) < 7200) { 
         printf("Error: No se puede cancelar el turno con menos de 2 horas de anticipacion.\n");
         return;
     }
@@ -239,7 +232,7 @@ void cancelarTurno() {
     printf("Error: No se encontro el turno con los datos proporcionados (fecha, hora, cancha y/o nombre no coinciden).\n");
 }
 
-// Implementacion de la funcion para reagendar un turno
+
 void reagendarTurno() {
     int dia_antiguo_int, hora_antigua_int;
     char diaAntiguo[11], horaAntigua[6], nombreAntiguo[51];
@@ -251,7 +244,6 @@ void reagendarTurno() {
     printf("--- Reagendar Turno ---\n");
     printf("Primero, ingrese los datos del turno que desea reagendar (para el mes actual %02d/%d):\n", mes_actual, anio_actual);
 
-    // Pedir solo el numero de dia del turno antiguo
     while (1) {
         dia_antiguo_int = getValidatedIntInput("Dia: ", 1, 31);
         if (validarDiaDelMes(dia_antiguo_int, mes_actual, anio_actual)) {
@@ -262,7 +254,6 @@ void reagendarTurno() {
     }
     sprintf(diaAntiguo, "%04d-%02d-%02d", anio_actual, mes_actual, dia_antiguo_int);
 
-    // Pedir solo la hora entera del turno antiguo
     while (1) {
         hora_antigua_int = getValidatedIntInput("Hora (0-23): ", 0, 23);
         if (validarHoraEntera(hora_antigua_int)) {
@@ -310,7 +301,6 @@ void reagendarTurno() {
     char nuevoDia_str[11], nuevaHora_str[6];
     int nuevaCancha;
 
-    // Pedir solo el numero de dia del nuevo turno
     while (1) {
         nuevoDia_int = getValidatedIntInput("Nuevo dia: ", 1, 31);
         if (validarDiaDelMes(nuevoDia_int, mes_actual, anio_actual)) {
@@ -321,7 +311,6 @@ void reagendarTurno() {
     }
     sprintf(nuevoDia_str, "%04d-%02d-%02d", anio_actual, mes_actual, nuevoDia_int);
 
-    // Pedir solo la hora entera del nuevo turno
     while (1) {
         nuevaHora_int = getValidatedIntInput("Nueva hora (0-23): ", 0, 23);
         if (validarHoraEntera(nuevaHora_int)) {
